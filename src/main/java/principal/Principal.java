@@ -120,7 +120,7 @@ public class Principal {
 
 		ObjectId oID = existeCapitalMongo(capital);
 		FindIterable<Document> it = database.getCollection("poblaciones").find(new Document("capital", oID));
-		Iterator iter = it.iterator();
+		Iterator<Document> iter = it.iterator();
 		Document doc = new Document();
 
 		ArrayList<Localidad> localidades = new ArrayList<Localidad>();
