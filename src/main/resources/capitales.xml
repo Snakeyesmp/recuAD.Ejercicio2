@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<provincias>
+	<provincia nombre="Valladolid">
+		<localidad>Medina del campo</localidad>
+		<localidad>Cogeces del monte</localidad>
+		<localidad>Transpinedo</localidad>
+		<localidad>Arroyo de la encomienda</localidad>
+	</provincia>
+	<provincia nombre="CiudadJAXB" />
+	<provincia nombre="CiudadPruebaDOM" />
+</provincias>
