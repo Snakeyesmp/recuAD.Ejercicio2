@@ -1,29 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <provincias>
+
     <provincia nombre="Valladolid">
         <localidad>Medina del campo</localidad>
         <localidad>Cogeces del monte</localidad>
         <localidad>Transpinedo</localidad>
         <localidad>Arroyo de la encomienda</localidad>
-    </provincia>
-    <provincia nombre="CiudadJAXB" />
-    <provincia nombre="CiudadPruebaDOM" />
-    <provincia nombre="Valladolid">
-        <localidad>Medina del campo</localidad>
-        <localidad>Cogeces del monte</localidad>
-        <localidad>Transpinedo</localidad>
-        <localidad>Arroyo de la encomienda</localidad>
-    </provincia>
-    <provincia nombre="Zamora">
-        <localidad>Toro</localidad>
-        <localidad>Puebla de sanabria</localidad>
-        <localidad>Fermosello</localidad>
-        <localidad>Benavente</localidad>
-    </provincia>
-    <provincia nombre="Palencia">
-        <localidad>Herrera de Pisuerga</localidad>
-        <localidad>Aguilar de Campoo</localidad>
-        <localidad>Venta de Baños</localidad>
-        <localidad>Astudillo</localidad>
     </provincia>
 </provincias>
