@@ -128,56 +128,56 @@ public class Principal {
 		while (iter.hasNext()) {
 			doc = (Document) iter.next();
 			Localidad localidad = new Localidad();
-			localidad.setNombre(doc.getString("nombre"));
+			localidad.setNombre(doc.getString("nombre")); // Añadir la población como localidad
 			localidades.add(localidad);
 		}
 		Provincia provincia = new Provincia(capital, localidades);
 		provincias.getProvincia().add(provincia);
-
+		// Este marshall sirve para guardar el documento en el XML
 		Marshaller jM = jC.createMarshaller();
 		jM.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		jM.marshal(provincias, new File(RUTA + documentoXML));
-
 	}
 
-	// LO MISO DE ARRIBA PERO EN DOM
+	// LO MISMO DE ARRIBA PERO EN DOM
 
 	private static void anadirProvinciaDOM(String capital) throws Exception {
-	    mongoConectarOnline();
+		mongoConectarOnline();
 
-	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	    DocumentBuilder builder = factory.newDocumentBuilder();
-	    org.w3c.dom.Document doc = builder.parse(new File(RUTA + documentoXML));
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
 
-	    ObjectId oID = existeCapitalMongo(capital);
-	    FindIterable<Document> it = database.getCollection("poblaciones").find(new Document("capital", oID));
-	    Iterator iter = it.iterator();
-	    Document docMongo = new Document();
+		org.w3c.dom.Document doc = builder.parse(new File(RUTA + documentoXML));
 
-	    ArrayList<String> localidades = new ArrayList<String>();
+		ObjectId oID = existeCapitalMongo(capital);
+		FindIterable<Document> it = database.getCollection("poblaciones").find(new Document("capital", oID));
+		Iterator<Document> iter = it.iterator();
+		Document docMongo = new Document();
 
-	    while (iter.hasNext()) {
-	        docMongo = (Document) iter.next();
-	        localidades.add(docMongo.getString("nombre"));
-	    }
+		ArrayList<String> localidades = new ArrayList<String>();
 
-	    Node provincias = doc.getElementsByTagName("provincias").item(0);
+		while (iter.hasNext()) {
+			docMongo = (Document) iter.next();
+			localidades.add(docMongo.getString("nombre")); // Añadir la población como localidad
+		}
 
-	    Element nuevaProvincia = doc.createElement("provincia");
-	    nuevaProvincia.setAttribute("nombre", capital);
+		Node provincias = doc.getElementsByTagName("provincias").item(0);
 
-	    for (String localidad : localidades) {
-	        Element localidadElement = doc.createElement("localidad");
-	        localidadElement.setAttribute("nombre", localidad);
-	        nuevaProvincia.appendChild(localidadElement);
-	    }
+		Element nuevaProvincia = doc.createElement("provincia");
+		nuevaProvincia.setAttribute("nombre", capital);
 
-	    provincias.appendChild(nuevaProvincia);
+		for (String localidad : localidades) {
+			Element localidadElement = doc.createElement("localidad");
+			localidadElement.setTextContent(localidad); // Set the text content of the localidad element
+			nuevaProvincia.appendChild(localidadElement);
+		}
 
-	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	    Transformer transformer = transformerFactory.newTransformer();
-	    DOMSource source = new DOMSource(doc);
-	    StreamResult result = new StreamResult(new File(RUTA + documentoXML));
-	    transformer.transform(source, result);
+		provincias.appendChild(nuevaProvincia);
+
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(doc);
+		StreamResult result = new StreamResult(new File(RUTA + documentoXML));
+		transformer.transform(source, result);
 	}
 }
