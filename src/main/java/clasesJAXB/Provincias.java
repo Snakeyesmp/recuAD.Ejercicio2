@@ -11,6 +11,7 @@ public class Provincias {
 	private ArrayList<Provincia> provincia;
 
 	public Provincias() {
+		this.provincia = new ArrayList<>();
 	}
 
 	public Provincias(ArrayList<Provincia> provincia) {

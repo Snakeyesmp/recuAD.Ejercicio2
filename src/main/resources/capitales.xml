@@ -1,10 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<provincias>
-
+<?xml version="1.0" encoding="UTF-8"?><provincias>
     <provincia nombre="Valladolid">
         <localidad>Medina del campo</localidad>
         <localidad>Cogeces del monte</localidad>
         <localidad>Transpinedo</localidad>
         <localidad>Arroyo de la encomienda</localidad>
     </provincia>
-</provincias>
+    <provincia nombre="Valladolid">
+        <localidad>Medina del campo</localidad>
+        <localidad>Cogeces del monte</localidad>
+        <localidad>Transpinedo</localidad>
+        <localidad>Arroyo de la encomienda</localidad>
+    </provincia>
+    <provincia nombre="Valladolid">
+        <localidad>Medina del campo</localidad>
+        <localidad>Cogeces del monte</localidad>
+        <localidad>Transpinedo</localidad>
+        <localidad>Arroyo de la encomienda</localidad>
+    </provincia>
+    <provincia nombre="Valladolid">
+        <localidad>Medina del campo</localidad>
+        <localidad>Cogeces del monte</localidad>
+        <localidad>Transpinedo</localidad>
+        <localidad>Arroyo de la encomienda</localidad>
+    </provincia>
+    <provincia nombre="Valladolid">
+        <localidad>Medina del campo</localidad>
+        <localidad>Cogeces del monte</localidad>
+        <localidad>Transpinedo</localidad>
+        <localidad>Arroyo de la encomienda</localidad>
+    </provincia>
+<provincia nombre="Valladolid"><localidad>Medina del campo</localidad><localidad>Cogeces del monte</localidad><localidad>Transpinedo</localidad><localidad>Arroyo de la encomienda</localidad></provincia></provincias>

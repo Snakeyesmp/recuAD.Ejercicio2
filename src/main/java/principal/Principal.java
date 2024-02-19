@@ -58,6 +58,7 @@ public class Principal {
 
 		// Añadir la capital introducida por el usuario al XML usando DOM
 		anadirProvinciaDOM(nombreCapital);
+		anadirProvinciaJAXB2(nombreCapital);
 
 		scanner.close();
 	}
@@ -194,4 +195,36 @@ public class Principal {
 		// Transformar la fuente en el resultado
 		transformer.transform(source, result);
 	}
+
+
+	private static void anadirProvinciaJAXB2(String capital) throws JAXBException {
+		mongoConectarOnline();
+		JAXBContext jC = JAXBContext.newInstance(Provincias.class);
+	
+		ObjectId oID = existeCapitalMongo(capital);
+		FindIterable<Document> it = database.getCollection("poblaciones").find(new Document("capital", oID));
+		Iterator<Document> iter = it.iterator();
+		Document doc = new Document();
+	
+		ArrayList<Localidad> localidades = new ArrayList<Localidad>();
+	
+		while (iter.hasNext()) {
+			doc = (Document) iter.next();
+			Localidad localidad = new Localidad();
+			localidad.setNombre(doc.getString("nombre")); // Añadir la población como localidad
+			localidades.add(localidad);
+		}
+		Provincia provincia = new Provincia(capital, localidades);
+	
+		// Crear una nueva instancia de Provincias en lugar de deserializar una existente
+		Provincias nuevasProvincias = new Provincias();
+		nuevasProvincias.getProvincia().add(provincia);
+	
+		// Este marshall sirve para guardar el documento en el XML
+		Marshaller jM = jC.createMarshaller();
+		jM.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		jM.marshal(nuevasProvincias, new File(RUTA + "nuevo_" + documentoXML));
+	}
+	
+
 }

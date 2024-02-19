@@ -11,7 +11,7 @@ public class Provincia {
 	private ArrayList<Localidad> localidad;
 
 	public Provincia() {
-
+		
 	}
 
 	public Provincia(String nombre, ArrayList<Localidad> localidad) {
