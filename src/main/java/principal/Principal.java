@@ -59,6 +59,7 @@ public class Principal {
 		// Añadir la capital introducida por el usuario al XML usando DOM
 		anadirProvinciaDOM(nombreCapital);
 		anadirProvinciaJAXB2(nombreCapital);
+		anadirProvinciaDOM2(nombreCapital);
 
 		scanner.close();
 	}
@@ -223,8 +224,68 @@ public class Principal {
 		// Este marshall sirve para guardar el documento en el XML
 		Marshaller jM = jC.createMarshaller();
 		jM.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		jM.marshal(nuevasProvincias, new File(RUTA + "nuevo_" + documentoXML));
+		jM.marshal(nuevasProvincias, new File(RUTA + "nuevoJAXB_" + documentoXML));
 	}
+	
+	
+	private static void anadirProvinciaDOM2(String capital) throws Exception {
+	    mongoConectarOnline();
+
+	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	    DocumentBuilder builder = factory.newDocumentBuilder();
+
+	    // Crear un nuevo documento DOM
+	    org.w3c.dom.Document doc = builder.newDocument();
+
+	    // Crear el elemento raíz <provincias>
+	    Element provinciasElement = doc.createElement("provincias");
+
+	    // Obtener las poblaciones de la capital desde MongoDB
+	    ObjectId oID = existeCapitalMongo(capital);
+	    FindIterable<Document> it = database.getCollection("poblaciones").find(new Document("capital", oID));
+	    Iterator<Document> iter = it.iterator();
+	    Document docMongo = new Document();
+
+	    ArrayList<String> localidades = new ArrayList<String>();
+
+	    // Iterar a través de los documentos devueltos por la consulta
+	    while (iter.hasNext()) {
+	        docMongo = (Document) iter.next();
+	        // Añadir el nombre de la población a la lista de localidades
+	        localidades.add(docMongo.getString("nombre"));
+	    }
+
+	    // Crear un nuevo elemento de provincia
+	    Element nuevaProvincia = doc.createElement("provincia");
+	    // Establecer el atributo nombre de la nueva provincia
+	    nuevaProvincia.setAttribute("nombre", capital);
+
+	    // Iterar a través de las localidades
+	    for (String localidad : localidades) {
+	        // Crear un nuevo elemento de localidad
+	        Element localidadElement = doc.createElement("localidad");
+	        // Establecer el contenido de texto del elemento de localidad
+	        localidadElement.setTextContent(localidad);
+	        // Añadir el elemento de localidad a la nueva provincia
+	        nuevaProvincia.appendChild(localidadElement);
+	    }
+
+	    // Añadir la nueva provincia al elemento raíz <provincias>
+	    provinciasElement.appendChild(nuevaProvincia);
+
+	    // Añadir el elemento raíz <provincias> al documento
+	    doc.appendChild(provinciasElement);
+
+	    // Crear una nueva fábrica de transformadores y un transformador
+	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	    Transformer transformer = transformerFactory.newTransformer();
+	    // Crear una nueva fuente DOM y un resultado de transmisión
+	    DOMSource source = new DOMSource(doc);
+	    StreamResult result = new StreamResult(new File(RUTA + "nuevoDOM_" + documentoXML));
+	    // Transformar la fuente en el resultado
+	    transformer.transform(source, result);
+	}
+
 	
 
 }
